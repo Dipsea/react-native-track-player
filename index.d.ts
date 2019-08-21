@@ -115,6 +115,7 @@ declare namespace RNTrackPlayer {
   // General
 
   export function setupPlayer(options?: PlayerOptions): Promise<void>;
+  export function isServiceConnected(): Promise<boolean>;
   export function destroy(): void;
 
   // Player Queue Commands
