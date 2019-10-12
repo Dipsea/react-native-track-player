@@ -2,21 +2,23 @@ package com.guichaguri.trackplayer.service;
 
 import android.app.Activity;
 import android.app.Notification;
-import android.app.NotificationChannel;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiManager.WifiLock;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.media.session.MediaButtonReceiver;
 
 import android.support.v4.media.session.MediaSessionCompat;
-import android.net.wifi.WifiManager;
-import android.net.wifi.WifiManager.WifiLock;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 
 import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.ReactInstanceManager;
