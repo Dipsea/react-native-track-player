@@ -47,7 +47,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     }
     
     public init() {
-        self.avPlayer = avPlayer
+        self.avPlayer = AVPlayer()
         self.playerObserver = AVPlayerObserver()
         self.playerObserver.player = avPlayer
         self.playerTimeObserver = AVPlayerTimeObserver(periodicObserverTimeInterval: timeEventFrequency.getTime())

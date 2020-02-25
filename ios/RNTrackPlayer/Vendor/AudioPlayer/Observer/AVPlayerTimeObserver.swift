@@ -27,8 +27,6 @@ class AVPlayerTimeObserver {
     var boundaryTimeStartObserverToken: Any?
     var periodicTimeObserverToken: Any?
     
-    private let player: AVPlayer
-    
     /// The frequence to receive periodic time events.
     /// Setting this to a new value will trigger a re-registering to the periodic events of the player.
     var periodicObserverTimeInterval: CMTime {
