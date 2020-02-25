@@ -146,10 +146,9 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
      
      - parameter infoCenter: The InfoCenter to update. Default is `MPNowPlayingInfoCenter.default()`.
      */
-    public init(avPlayer: AVPlayer = AVPlayer(),
-                nowPlayingInfoController: NowPlayingInfoControllerProtocol = NowPlayingInfoController(),
+    public init(nowPlayingInfoController: NowPlayingInfoControllerProtocol = NowPlayingInfoController(),
                 remoteCommandController: RemoteCommandController = RemoteCommandController()) {
-        self._wrapper = AVPlayerWrapper(avPlayer: avPlayer)
+        self._wrapper = AVPlayerWrapper()
         self.nowPlayingInfoController = nowPlayingInfoController
         self.remoteCommandController = remoteCommandController
         
@@ -342,6 +341,10 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     func AVWrapper(secondsElapsed seconds: Double) {
         self.event.secondElapse.emit(data: seconds)
         self.delegate?.audioPlayer(secondsElapsed: seconds)
+    }
+    
+    func AVWrapperDidRecreateAVPlayer() {
+        self.event.didRecreateAVPlayer.emit(data: ())
     }
     
     func AVWrapper(failedWithError error: Error?) {

@@ -54,6 +54,13 @@ extension AudioPlayer {
          */
         public let updateDuration: AudioPlayer.Event<UpdateDurationEventData> = AudioPlayer.Event()
         
+        /**
+         Emitted when the underlying AVPlayer instance is recreated. Recreation happens if the current player fails.
+         - Important: Remember to dispatch to the main queue if any UI is updated in the event handler.
+         - Note: It can be necessary to set the AVAudioSession's category again when this event is emitted.
+         */
+        public let didRecreateAVPlayer: AudioPlayer.Event<()> = AudioPlayer.Event()
+        
     }
     
     public typealias EventClosure<EventData> = (EventData) -> Void

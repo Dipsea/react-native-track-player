@@ -26,7 +26,7 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     
     // MARK: - Properties
     
-    let avPlayer: AVPlayer
+    var avPlayer: AVPlayer
     let playerObserver: AVPlayerObserver
     let playerTimeObserver: AVPlayerTimeObserver
     let playerItemNotificationObserver: AVPlayerItemNotificationObserver
@@ -46,10 +46,12 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         }
     }
     
-    public init(avPlayer: AVPlayer = AVPlayer()) {
+    public init() {
         self.avPlayer = avPlayer
-        self.playerObserver = AVPlayerObserver(player: avPlayer)
-        self.playerTimeObserver = AVPlayerTimeObserver(player: avPlayer, periodicObserverTimeInterval: timeEventFrequency.getTime())
+        self.playerObserver = AVPlayerObserver()
+        self.playerObserver.player = avPlayer
+        self.playerTimeObserver = AVPlayerTimeObserver(periodicObserverTimeInterval: timeEventFrequency.getTime())
+        self.playerTimeObserver.player = avPlayer
         self.playerItemNotificationObserver = AVPlayerItemNotificationObserver()
         self.playerItemObserver = AVPlayerItemObserver()
         
@@ -165,7 +167,9 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
     func load(from url: URL, playWhenReady: Bool) {
         reset(soft: true)
         _playWhenReady = playWhenReady
-
+        if currentItem?.status == .failed {
+            recreateAVPlayer()
+        }
         // Set item
         let currentAsset = AVURLAsset(url: url)
         let currentItem = AVPlayerItem(asset: currentAsset, automaticallyLoadedAssetKeys: [Constants.assetPlayableKey])
@@ -195,6 +199,15 @@ class AVPlayerWrapper: AVPlayerWrapperProtocol {
         if !soft {
             avPlayer.replaceCurrentItem(with: nil)
         }
+    }
+    
+    private func recreateAVPlayer() {
+        let player = AVPlayer()
+        playerObserver.player = player
+        playerTimeObserver.player = player
+        playerTimeObserver.registerForPeriodicTimeEvents()
+        avPlayer = player
+        delegate?.AVWrapperDidRecreateAVPlayer()
     }
     
 }
